@@ -312,29 +312,38 @@
         let transactions = [];
         let currentUser = null;
 
-        // Login Handler
+        // Login Handler - Updated Logic
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPassword').value;
-            const btn = document.getElementById('btnLogin');
-            const txt = document.getElementById('loginBtnText');
-            
+
+            const email = loginEmail.value.trim();
+            const pass = loginPassword.value.trim();
+
+            const btn = btnLogin;
+            const txt = loginBtnText;
+
             btn.disabled = true;
             txt.innerText = "Memverifikasi...";
 
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
+                // sukses → onAuthStateChanged otomatis jalan
             } catch (err) {
-                if (email === "risma@lestarivilla.com" && pass === "admin123" && (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials')) {
-                    try {
-                        await createUserWithEmailAndPassword(auth, email, pass);
-                    } catch (regErr) {
-                        showToast("Error Registrasi: " + regErr.message);
-                    }
-                } else {
-                    showToast("Login Gagal: Periksa Email/Password");
+                console.error(err);
+
+                let msg = "Login gagal";
+
+                if (err.code === "auth/user-not-found") {
+                    msg = "Email belum terdaftar";
+                } else if (err.code === "auth/wrong-password") {
+                    msg = "Password salah";
+                } else if (err.code === "auth/invalid-email") {
+                    msg = "Format email tidak valid";
+                } else if (err.code === "auth/invalid-credential") {
+                    msg = "Email atau Password tidak sesuai";
                 }
+
+                showToast(msg);
             } finally {
                 btn.disabled = false;
                 txt.innerText = "Masuk Ke System";
@@ -496,4 +505,70 @@
         };
 
         document.getElementById('expenseForm').onsubmit = (e) => {
-            e.preventDefault
+            e.preventDefault();
+            saveToCloud('expenseForm', {
+                type: 'expense',
+                category: document.getElementById('expCategory').value,
+                note: document.getElementById('expNote').value,
+                amount: parseFloat(document.getElementById('expAmount').value)
+            }, 'expId');
+        };
+
+        window.editTx = (id) => {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+            if (t.type === 'income' && t.unit) {
+                showTab('reservation');
+                document.getElementById('resId').value = t.id;
+                document.getElementById('resUnit').value = t.unit;
+                document.getElementById('resGuestName').value = t.guest;
+                document.getElementById('resCheckIn').value = t.checkIn;
+                document.getElementById('resCheckOut').value = t.checkOut;
+                document.getElementById('resPrice').value = t.amount;
+            } else if (t.type === 'income') {
+                showTab('extra-sales');
+                document.getElementById('extraId').value = t.id;
+                document.getElementById('extraCategory').value = t.category;
+                document.getElementById('extraNote').value = t.note;
+                document.getElementById('extraAmount').value = t.amount;
+            } else {
+                showTab('expenses');
+                document.getElementById('expId').value = t.id;
+                document.getElementById('expCategory').value = t.category;
+                document.getElementById('expNote').value = t.note;
+                document.getElementById('expAmount').value = t.amount;
+            }
+        };
+
+        window.deleteTx = async (id) => {
+            if (confirm("Hapus data ini dari cloud?")) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id));
+                showToast("Dihapus");
+            }
+        };
+
+        window.printTx = (id) => {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+            document.getElementById('receipt-content').innerHTML = `
+                <p>ID: ${t.id.substring(0,8).toUpperCase()}</p>
+                <p>Tgl: ${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString('id-ID') : '-'}</p>
+                <p>Tipe: ${t.unit || t.category}</p>
+                <hr style="border-top: 1px dashed #000;">
+                <p><strong>Ket: ${t.guest || t.note}</strong></p>
+                <p style="font-size: 16px; text-align: right;"><strong>${formatIDR(t.amount)}</strong></p>
+            `;
+            window.print();
+        };
+
+        const showToast = (m) => {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = m;
+            t.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
+        };
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
