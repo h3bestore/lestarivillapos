@@ -113,7 +113,7 @@
                     <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
                         <div>
                             <h2 id="greetingText" class="text-3xl font-black text-slate-800 tracking-tight uppercase">Halo, Selamat Pagi!</h2>
-                            <p id="welcomeUser" class="text-slate-500 font-medium">Selamat mengelola operasional hari ini.</p>
+                            <p id="welcomeUser" class="text-slate-500 font-medium italic">Sistem Cloud sedang memuat data...</p>
                         </div>
                         <p id="currentDate" class="text-xs font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest self-start"></p>
                     </div>
@@ -155,7 +155,7 @@
                     </div>
                 </div>
 
-                <!-- Forms (Reservation, Extra, Expense) -->
+                <!-- Tab: Reservation -->
                 <div id="tab-reservation" class="tab-content max-w-3xl mx-auto">
                     <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
                         <h2 class="text-2xl font-black text-slate-800 uppercase mb-8 border-b pb-4 flex items-center gap-3">
@@ -166,67 +166,82 @@
                             <div class="grid grid-cols-2 gap-6">
                                 <div class="col-span-2">
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Unit Villa</label>
-                                    <select id="resUnit" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none">
+                                    <select id="resUnit" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500">
                                         <option value="Villa Caramello">Villa Caramello</option>
                                         <option value="Villa Vanilla">Villa Vanilla</option>
                                     </select>
                                 </div>
                                 <div class="col-span-2">
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nama Tamu</label>
-                                    <input type="text" id="resGuestName" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required>
+                                    <input type="text" id="resGuestName" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" required>
                                 </div>
                                 <div><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Check-In</label><input type="date" id="resCheckIn" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
                                 <div><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Check-Out</label><input type="date" id="resCheckOut" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
                                 <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nominal (Rp)</label><input type="number" id="resPrice" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold text-xl text-emerald-600 outline-none" required></div>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-lg hover:bg-slate-800 uppercase tracking-widest">Simpan Data</button>
+                            <button type="submit" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-lg hover:bg-slate-800 uppercase tracking-widest transition">Simpan Data</button>
                         </form>
                     </div>
                 </div>
 
+                <!-- Tab: Extra Sales -->
                 <div id="tab-extra-sales" class="tab-content max-w-3xl mx-auto">
                     <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
-                        <h2 class="text-2xl font-black text-slate-800 uppercase mb-8 border-b pb-4">Penjualan Jasa</h2>
+                        <h2 class="text-2xl font-black text-slate-800 uppercase mb-8 border-b pb-4 flex items-center gap-3">
+                            <i data-lucide="shopping-cart" class="text-blue-500"></i> Penjualan Jasa
+                        </h2>
                         <form id="extraSalesForm" class="space-y-6">
                             <input type="hidden" id="extraId">
                             <div class="grid grid-cols-2 gap-6">
                                 <div class="col-span-2">
-                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Kategori</label>
-                                    <select id="extraCategory" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Kategori Jasa</label>
+                                    <select id="extraCategory" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-blue-500">
                                         <option value="Jasa Catering">Jasa Catering</option>
                                         <option value="Barbeque">Barbeque</option>
                                         <option value="Extra Bed">Extra Bed</option>
-                                        <option value="Rental">Rental Mobil</option>
+                                        <option value="Rental Mobil">Rental Mobil</option>
+                                        <option value="Jasa Laundry">Jasa Laundry</option>
                                         <option value="Lain-lain">Lain-lain</option>
                                     </select>
                                 </div>
-                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Detail</label><input type="text" id="extraNote" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Detail Pesanan</label><input type="text" id="extraNote" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
                                 <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Harga (Rp)</label><input type="number" id="extraAmount" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold text-xl text-blue-600 outline-none" required></div>
                             </div>
-                            <button type="submit" class="w-full bg-emerald-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest">Simpan Penjualan</button>
+                            <button type="submit" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-lg hover:bg-blue-700 uppercase tracking-widest transition">Simpan Penjualan</button>
                         </form>
                     </div>
                 </div>
 
+                <!-- Tab: Expenses -->
                 <div id="tab-expenses" class="tab-content max-w-3xl mx-auto">
                     <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
-                        <h2 class="text-2xl font-black text-rose-600 uppercase mb-8 border-b pb-4">Biaya Operasional</h2>
+                        <h2 class="text-2xl font-black text-rose-600 uppercase mb-8 border-b pb-4 flex items-center gap-3">
+                            <i data-lucide="wallet" class="text-rose-500"></i> Biaya Operasional
+                        </h2>
                         <form id="expenseForm" class="space-y-6">
                             <input type="hidden" id="expId">
                             <div class="grid grid-cols-2 gap-6">
                                 <div class="col-span-2">
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Kategori Biaya</label>
-                                    <select id="expCategory" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none">
+                                    <select id="expCategory" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-rose-500">
                                         <option value="Gaji Staff">Gaji Staff</option>
                                         <option value="Perbaikan">Perbaikan</option>
-                                        <option value="Listrik/Air">Biaya Listrik/Air</option>
                                         <option value="Belanja">Belanja</option>
+                                        <option value="Biaya Iklan">Biaya Iklan</option>
+                                        <option value="Iuran">Iuran</option>
+                                        <option value="Listrik">Listrik</option>
+                                        <option value="Internet">Internet</option>
+                                        <option value="PDAM">PDAM</option>
+                                        <option value="Maintenance">Maintenance</option>
+                                        <option value="Zakat">Zakat</option>
+                                        <option value="Komisi Broker">Komisi Broker</option>
+                                        <option value="Lain-lain">Lain-lain</option>
                                     </select>
                                 </div>
-                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Keterangan</label><input type="text" id="expNote" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Keterangan Pengeluaran</label><input type="text" id="expNote" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
                                 <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nominal (Rp)</label><input type="number" id="expAmount" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold text-xl text-rose-600 outline-none" required></div>
                             </div>
-                            <button type="submit" class="w-full bg-rose-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest">Simpan Pengeluaran</button>
+                            <button type="submit" class="w-full bg-rose-600 text-white font-black py-5 rounded-2xl shadow-lg hover:bg-rose-700 uppercase tracking-widest transition">Simpan Pengeluaran</button>
                         </form>
                     </div>
                 </div>
@@ -297,7 +312,7 @@
         let transactions = [];
         let currentUser = null;
 
-        // Login Handler with Auto-Register for Trial User
+        // Login Handler
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
@@ -309,11 +324,9 @@
             txt.innerText = "Memverifikasi...";
 
             try {
-                // Mencoba login
                 await signInWithEmailAndPassword(auth, email, pass);
             } catch (err) {
-                // Jika user trial (Risma) belum ada, buat otomatis
-                if (email === "risma@lestarivilla.com" && pass === "admin123" && err.code === 'auth/user-not-found') {
+                if (email === "risma@lestarivilla.com" && pass === "admin123" && (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials')) {
                     try {
                         await createUserWithEmailAndPassword(auth, email, pass);
                     } catch (regErr) {
@@ -334,15 +347,35 @@
             });
         };
 
+        // UI Helpers
+        const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+        const formatIDR = (n) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+
+        // Greeting Logic based on Auth and Time
+        const updateGreeting = (userEmail) => {
+            const hr = new Date().getHours();
+            let greeting = "Pagi";
+            if (hr >= 12 && hr < 15) greeting = "Siang";
+            else if (hr >= 15 && hr < 18) greeting = "Sore";
+            else if (hr >= 18 || hr < 4) greeting = "Malam";
+
+            // Extract name from email (risma@... -> Risma)
+            const rawName = userEmail.split('@')[0];
+            const name = capitalize(rawName);
+
+            document.getElementById('greetingText').innerText = `Halo ${name}, Selamat ${greeting}!`;
+            document.getElementById('welcomeUser').innerText = "Akses cloud aktif. Selamat mengelola operasional.";
+        };
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appContainer').classList.remove('hidden');
                 document.getElementById('userIdDisplay').innerText = "Logged as: " + user.email;
-                document.getElementById('welcomeUser').innerText = `Selamat mengelola operasional, ${user.email.split('@')[0]}!`;
+                
                 initSync();
-                updateGreeting();
+                updateGreeting(user.email);
             }
         });
 
@@ -352,19 +385,8 @@
                 transactions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 transactions.sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0));
                 updateUI();
-            });
+            }, (err) => showToast("Koneksi cloud bermasalah"));
         };
-
-        const updateGreeting = () => {
-            const hr = new Date().getHours();
-            let g = "Pagi";
-            if (hr >= 12 && hr < 15) g = "Siang";
-            else if (hr >= 15 && hr < 18) g = "Sore";
-            else if (hr >= 18 || hr < 4) g = "Malam";
-            document.getElementById('greetingText').innerText = `Halo, Selamat ${g}!`;
-        };
-
-        const formatIDR = (n) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
 
         window.showTab = (tabId) => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -474,70 +496,4 @@
         };
 
         document.getElementById('expenseForm').onsubmit = (e) => {
-            e.preventDefault();
-            saveToCloud('expenseForm', {
-                type: 'expense',
-                category: document.getElementById('expCategory').value,
-                note: document.getElementById('expNote').value,
-                amount: parseFloat(document.getElementById('expAmount').value)
-            }, 'expId');
-        };
-
-        window.editTx = (id) => {
-            const t = transactions.find(x => x.id === id);
-            if (!t) return;
-            if (t.type === 'income' && t.unit) {
-                showTab('reservation');
-                document.getElementById('resId').value = t.id;
-                document.getElementById('resUnit').value = t.unit;
-                document.getElementById('resGuestName').value = t.guest;
-                document.getElementById('resCheckIn').value = t.checkIn;
-                document.getElementById('resCheckOut').value = t.checkOut;
-                document.getElementById('resPrice').value = t.amount;
-            } else if (t.type === 'income') {
-                showTab('extra-sales');
-                document.getElementById('extraId').value = t.id;
-                document.getElementById('extraCategory').value = t.category;
-                document.getElementById('extraNote').value = t.note;
-                document.getElementById('extraAmount').value = t.amount;
-            } else {
-                showTab('expenses');
-                document.getElementById('expId').value = t.id;
-                document.getElementById('expCategory').value = t.category;
-                document.getElementById('expNote').value = t.note;
-                document.getElementById('expAmount').value = t.amount;
-            }
-        };
-
-        window.deleteTx = async (id) => {
-            if (confirm("Hapus data ini?")) {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id));
-                showToast("Dihapus");
-            }
-        };
-
-        window.printTx = (id) => {
-            const t = transactions.find(x => x.id === id);
-            if (!t) return;
-            document.getElementById('receipt-content').innerHTML = `
-                <p>No: ${t.id.substring(0,8).toUpperCase()}</p>
-                <p>Tgl: ${new Date().toLocaleDateString('id-ID')}</p>
-                <p>Unit: ${t.unit || t.category}</p>
-                <hr style="border-top: 1px dashed #000;">
-                <p><strong>Item: ${t.guest || t.note}</strong></p>
-                <p style="font-size: 16px; text-align: right;"><strong>${formatIDR(t.amount)}</strong></p>
-            `;
-            window.print();
-        };
-
-        const showToast = (m) => {
-            const t = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = m;
-            t.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
-        };
-
-        lucide.createIcons();
-    </script>
-</body>
-</html>
+            e.preventDefault
