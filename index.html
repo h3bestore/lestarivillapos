@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lestari Villa POS - Cloud Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .sidebar-active { background-color: rgba(16, 185, 129, 0.1); color: #059669; border-right: 4px solid #059669; }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-print, #receipt-print * { visibility: visible; }
+            #receipt-print { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+
+        .login-gradient {
+            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="fixed inset-0 z-[200] flex items-center justify-center login-gradient p-4">
+        <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md">
+            <div class="text-center mb-10">
+                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="lock" class="w-10 h-10"></i>
+                </div>
+                <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tighter">LESTARI POS</h1>
+                <p class="text-xs italic text-slate-400">system by Isa</p>
+            </div>
+            
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Email System</label>
+                    <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="nama@lestarivilla.com" required>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Kata Sandi</label>
+                    <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" id="btnLogin" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-3 mt-4">
+                    <span id="loginBtnText">Masuk Ke System</span>
+                    <i data-lucide="log-in" class="w-5 h-5"></i>
+                </button>
+            </form>
+
+            <div class="mt-8 text-center border-t pt-6">
+                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Secure Cloud Infrastructure</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="appContainer" class="hidden flex flex-col md:flex-row min-h-screen">
+        
+        <!-- Sidebar -->
+        <nav class="w-full md:w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col relative z-50">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-10">
+                    <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                        <i data-lucide="castle" class="w-6 h-6"></i>
+                    </div>
+                    <div class="leading-none">
+                        <span class="font-black text-xl tracking-tighter block uppercase">LESTARI</span>
+                        <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-[0.2em]">Management</span>
+                    </div>
+                </div>
+                <div class="space-y-1.5" id="nav-items">
+                    <button onclick="showTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-dashboard">
+                        <i data-lucide="pie-chart" class="w-5 h-5"></i><span>Ringkasan</span>
+                    </button>
+                    <button onclick="showTab('reservation')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-reservation">
+                        <i data-lucide="key" class="w-5 h-5"></i><span>Reservasi</span>
+                    </button>
+                    <button onclick="showTab('extra-sales')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-extra-sales">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i><span>Penjualan</span>
+                    </button>
+                    <button onclick="showTab('expenses')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-expenses">
+                        <i data-lucide="wallet" class="w-5 h-5"></i><span>Operasional</span>
+                    </button>
+                    <button onclick="showTab('reports')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-reports">
+                        <i data-lucide="scroll-text" class="w-5 h-5"></i><span>Laporan</span>
+                    </button>
+                </div>
+            </div>
+            <div class="mt-auto p-6 border-t border-slate-100 bg-slate-50/50">
+                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 text-rose-500 font-black text-xs uppercase tracking-widest mb-4 hover:opacity-70">
+                    <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+                </button>
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Cloud Connected</span>
+                </div>
+                <p id="userIdDisplay" class="text-[9px] text-slate-400 font-mono truncate"></p>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-6 md:p-10 max-w-7xl mx-auto">
+                
+                <!-- Tab: Dashboard -->
+                <div id="tab-dashboard" class="tab-content active space-y-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                        <div>
+                            <h2 id="greetingText" class="text-3xl font-black text-slate-800 tracking-tight uppercase">Halo, Selamat Pagi!</h2>
+                            <p id="welcomeUser" class="text-slate-500 font-medium">Selamat mengelola operasional hari ini.</p>
+                        </div>
+                        <p id="currentDate" class="text-xs font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest self-start"></p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Omzet Bruto</p>
+                            <h3 id="statTotalOmzet" class="text-2xl font-black text-slate-800">Rp 0</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2 text-amber-600">Caramello</p>
+                            <h3 id="statCaramello" class="text-2xl font-black text-slate-800">Rp 0</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2 text-pink-600">Vanilla</p>
+                            <h3 id="statVanilla" class="text-2xl font-black text-slate-800">Rp 0</h3>
+                        </div>
+                        <div class="bg-emerald-600 p-6 rounded-[2rem] shadow-xl shadow-emerald-200 text-white">
+                            <p class="text-emerald-200 text-[10px] font-black uppercase tracking-widest mb-2">Profit Netto</p>
+                            <h3 id="statNetProfit" class="text-2xl font-black">Rp 0</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
+                            <h4 class="font-black text-slate-800 uppercase tracking-tight mb-6 flex items-center gap-2">
+                                <i data-lucide="zap" class="text-amber-500 w-5 h-5"></i> Aktivitas Terkini
+                            </h4>
+                            <div id="recentTransactions" class="space-y-4"></div>
+                        </div>
+                        <div class="bg-slate-800 rounded-[2rem] p-8 text-white shadow-xl">
+                            <h4 class="font-black uppercase tracking-tight mb-6">Distribusi Biaya</h4>
+                            <div id="expenseSummary" class="space-y-4"></div>
+                            <div class="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
+                                <span class="text-slate-400 text-xs font-bold uppercase">Total Biaya</span>
+                                <span id="statTotalExpense" class="text-xl font-black text-rose-400">Rp 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forms (Reservation, Extra, Expense) -->
+                <div id="tab-reservation" class="tab-content max-w-3xl mx-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-black text-slate-800 uppercase mb-8 border-b pb-4 flex items-center gap-3">
+                            <i data-lucide="key" class="text-emerald-500"></i> <span id="resFormTitle">Input Reservasi</span>
+                        </h2>
+                        <form id="reservationForm" class="space-y-6">
+                            <input type="hidden" id="resId">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Unit Villa</label>
+                                    <select id="resUnit" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none">
+                                        <option value="Villa Caramello">Villa Caramello</option>
+                                        <option value="Villa Vanilla">Villa Vanilla</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nama Tamu</label>
+                                    <input type="text" id="resGuestName" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required>
+                                </div>
+                                <div><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Check-In</label><input type="date" id="resCheckIn" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
+                                <div><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Check-Out</label><input type="date" id="resCheckOut" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nominal (Rp)</label><input type="number" id="resPrice" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold text-xl text-emerald-600 outline-none" required></div>
+                            </div>
+                            <button type="submit" class="w-full bg-slate-900 text-white font-black py-5 rounded-2xl shadow-lg hover:bg-slate-800 uppercase tracking-widest">Simpan Data</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="tab-extra-sales" class="tab-content max-w-3xl mx-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-black text-slate-800 uppercase mb-8 border-b pb-4">Penjualan Jasa</h2>
+                        <form id="extraSalesForm" class="space-y-6">
+                            <input type="hidden" id="extraId">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Kategori</label>
+                                    <select id="extraCategory" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none">
+                                        <option value="Jasa Catering">Jasa Catering</option>
+                                        <option value="Barbeque">Barbeque</option>
+                                        <option value="Extra Bed">Extra Bed</option>
+                                        <option value="Rental">Rental Mobil</option>
+                                        <option value="Lain-lain">Lain-lain</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Detail</label><input type="text" id="extraNote" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Harga (Rp)</label><input type="number" id="extraAmount" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold text-xl text-blue-600 outline-none" required></div>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest">Simpan Penjualan</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="tab-expenses" class="tab-content max-w-3xl mx-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100">
+                        <h2 class="text-2xl font-black text-rose-600 uppercase mb-8 border-b pb-4">Biaya Operasional</h2>
+                        <form id="expenseForm" class="space-y-6">
+                            <input type="hidden" id="expId">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Kategori Biaya</label>
+                                    <select id="expCategory" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none">
+                                        <option value="Gaji Staff">Gaji Staff</option>
+                                        <option value="Perbaikan">Perbaikan</option>
+                                        <option value="Listrik/Air">Biaya Listrik/Air</option>
+                                        <option value="Belanja">Belanja</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Keterangan</label><input type="text" id="expNote" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required></div>
+                                <div class="col-span-2"><label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Nominal (Rp)</label><input type="number" id="expAmount" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold text-xl text-rose-600 outline-none" required></div>
+                            </div>
+                            <button type="submit" class="w-full bg-rose-600 text-white font-black py-5 rounded-2xl shadow-lg uppercase tracking-widest">Simpan Pengeluaran</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tab: Reports -->
+                <div id="tab-reports" class="tab-content space-y-6">
+                    <h2 class="text-2xl font-black text-slate-800 uppercase">Riwayat Cloud</h2>
+                    <div class="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr>
+                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Waktu</th>
+                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipe</th>
+                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Ket</th>
+                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Nominal</th>
+                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionTableBody" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- PRINT TEMPLATE -->
+    <div id="receipt-print" class="hidden p-6 text-black" style="font-family: 'Courier New', Courier, monospace; font-size: 12px; width: 300px;">
+        <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
+            <h2 style="font-size: 18px; margin: 0;">LESTARI POS</h2>
+            <p style="margin: 0;">Villa Management System</p>
+        </div>
+        <div id="receipt-content"></div>
+        <div style="text-align: center; border-top: 1px dashed #000; padding-top: 10px; margin-top: 10px;">
+            <p>Terima Kasih</p>
+            <p style="font-size: 10px;">*system by Isa*</p>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-8 right-8 translate-y-20 opacity-0 transition-all duration-500 bg-slate-900 text-white px-8 py-4 rounded-3xl shadow-2xl z-[300] font-bold">
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, doc, deleteDoc, updateDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD9jVF4qo_mTHj6nrIPRoGwL8N8XDPVyXU",
+            authDomain: "lestarivillapos.firebaseapp.com",
+            projectId: "lestarivillapos",
+            storageBucket: "lestarivillapos.firebasestorage.app",
+            messagingSenderId: "419860326735",
+            appId: "1:419860326735:web:cf12e9bda9af59065e3d3a",
+            measurementId: "G-T69HBP804C"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = "lestarivillapos";
+
+        let transactions = [];
+        let currentUser = null;
+
+        // Login Handler with Auto-Register for Trial User
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLogin');
+            const txt = document.getElementById('loginBtnText');
+            
+            btn.disabled = true;
+            txt.innerText = "Memverifikasi...";
+
+            try {
+                // Mencoba login
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (err) {
+                // Jika user trial (Risma) belum ada, buat otomatis
+                if (email === "risma@lestarivilla.com" && pass === "admin123" && err.code === 'auth/user-not-found') {
+                    try {
+                        await createUserWithEmailAndPassword(auth, email, pass);
+                    } catch (regErr) {
+                        showToast("Error Registrasi: " + regErr.message);
+                    }
+                } else {
+                    showToast("Login Gagal: Periksa Email/Password");
+                }
+            } finally {
+                btn.disabled = false;
+                txt.innerText = "Masuk Ke System";
+            }
+        };
+
+        window.logout = () => {
+            signOut(auth).then(() => {
+                location.reload();
+            });
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                document.getElementById('userIdDisplay').innerText = "Logged as: " + user.email;
+                document.getElementById('welcomeUser').innerText = `Selamat mengelola operasional, ${user.email.split('@')[0]}!`;
+                initSync();
+                updateGreeting();
+            }
+        });
+
+        const initSync = () => {
+            const txRef = collection(db, 'artifacts', appId, 'public', 'data', 'transactions');
+            onSnapshot(query(txRef), (snapshot) => {
+                transactions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                transactions.sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0));
+                updateUI();
+            });
+        };
+
+        const updateGreeting = () => {
+            const hr = new Date().getHours();
+            let g = "Pagi";
+            if (hr >= 12 && hr < 15) g = "Siang";
+            else if (hr >= 15 && hr < 18) g = "Sore";
+            else if (hr >= 18 || hr < 4) g = "Malam";
+            document.getElementById('greetingText').innerText = `Halo, Selamat ${g}!`;
+        };
+
+        const formatIDR = (n) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+
+        window.showTab = (tabId) => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('sidebar-active', 'bg-emerald-50', 'text-emerald-600'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(`btn-${tabId}`).classList.add('sidebar-active', 'bg-emerald-50', 'text-emerald-600');
+            lucide.createIcons();
+        };
+
+        const updateUI = () => {
+            let income = 0, caramello = 0, vanilla = 0, expense = 0;
+            const recent = document.getElementById('recentTransactions');
+            const summary = document.getElementById('expenseSummary');
+            recent.innerHTML = ''; summary.innerHTML = '';
+            const expMap = {};
+
+            transactions.forEach((t, i) => {
+                if (t.type === 'income') {
+                    income += t.amount;
+                    if (t.unit === 'Villa Caramello') caramello += t.amount;
+                    if (t.unit === 'Villa Vanilla') vanilla += t.amount;
+                    if (i < 5) {
+                        const d = document.createElement('div');
+                        d.className = "flex justify-between items-center p-4 bg-slate-50 rounded-2xl";
+                        d.innerHTML = `<div><p class="font-bold text-sm">${t.guest || t.note}</p><p class="text-[9px] uppercase font-black text-slate-400">${t.unit || t.category}</p></div><span class="font-black text-emerald-600">+${formatIDR(t.amount)}</span>`;
+                        recent.appendChild(d);
+                    }
+                } else {
+                    expense += t.amount;
+                    expMap[t.category] = (expMap[t.category] || 0) + t.amount;
+                }
+            });
+
+            document.getElementById('statTotalOmzet').innerText = formatIDR(income);
+            document.getElementById('statCaramello').innerText = formatIDR(caramello);
+            document.getElementById('statVanilla').innerText = formatIDR(vanilla);
+            document.getElementById('statTotalExpense').innerText = formatIDR(expense);
+            document.getElementById('statNetProfit').innerText = formatIDR(income - expense);
+            document.getElementById('currentDate').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' });
+
+            Object.entries(expMap).forEach(([k, v]) => {
+                const d = document.createElement('div');
+                d.className = "flex justify-between items-center";
+                d.innerHTML = `<span class="text-xs text-slate-400 font-bold uppercase">${k}</span><span class="font-black text-sm">${formatIDR(v)}</span>`;
+                summary.appendChild(d);
+            });
+            renderTable();
+        };
+
+        const renderTable = () => {
+            const b = document.getElementById('transactionTableBody');
+            b.innerHTML = transactions.map(t => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="px-8 py-5 text-[10px] text-slate-400">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString('id-ID') : '...'}</td>
+                    <td class="px-8 py-5"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${t.type === 'income' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${t.unit || t.category}</span></td>
+                    <td class="px-8 py-5 text-sm font-bold text-slate-700">${t.guest || t.note}</td>
+                    <td class="px-8 py-5 text-right font-black ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}">${formatIDR(t.amount)}</td>
+                    <td class="px-8 py-5">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="printTx('${t.id}')" class="p-2 text-slate-400 hover:text-slate-600"><i data-lucide="printer" class="w-4 h-4"></i></button>
+                            <button onclick="editTx('${t.id}')" class="p-2 text-emerald-500 hover:text-emerald-700"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                            <button onclick="deleteTx('${t.id}')" class="p-2 text-rose-400 hover:text-rose-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            lucide.createIcons();
+        };
+
+        const saveToCloud = async (formId, data, idField) => {
+            if (!currentUser) return;
+            const id = document.getElementById(idField).value;
+            try {
+                if (id) {
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id), data);
+                    showToast("Data Diperbarui");
+                } else {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), { ...data, date: Timestamp.now() });
+                    showToast("Data Disimpan");
+                }
+                document.getElementById(formId).reset();
+                document.getElementById(idField).value = "";
+                showTab('dashboard');
+            } catch (e) { showToast("Error Cloud"); }
+        };
+
+        document.getElementById('reservationForm').onsubmit = (e) => {
+            e.preventDefault();
+            saveToCloud('reservationForm', {
+                type: 'income',
+                unit: document.getElementById('resUnit').value,
+                guest: document.getElementById('resGuestName').value,
+                checkIn: document.getElementById('resCheckIn').value,
+                checkOut: document.getElementById('resCheckOut').value,
+                amount: parseFloat(document.getElementById('resPrice').value)
+            }, 'resId');
+        };
+
+        document.getElementById('extraSalesForm').onsubmit = (e) => {
+            e.preventDefault();
+            saveToCloud('extraSalesForm', {
+                type: 'income',
+                category: document.getElementById('extraCategory').value,
+                note: document.getElementById('extraNote').value,
+                amount: parseFloat(document.getElementById('extraAmount').value)
+            }, 'extraId');
+        };
+
+        document.getElementById('expenseForm').onsubmit = (e) => {
+            e.preventDefault();
+            saveToCloud('expenseForm', {
+                type: 'expense',
+                category: document.getElementById('expCategory').value,
+                note: document.getElementById('expNote').value,
+                amount: parseFloat(document.getElementById('expAmount').value)
+            }, 'expId');
+        };
+
+        window.editTx = (id) => {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+            if (t.type === 'income' && t.unit) {
+                showTab('reservation');
+                document.getElementById('resId').value = t.id;
+                document.getElementById('resUnit').value = t.unit;
+                document.getElementById('resGuestName').value = t.guest;
+                document.getElementById('resCheckIn').value = t.checkIn;
+                document.getElementById('resCheckOut').value = t.checkOut;
+                document.getElementById('resPrice').value = t.amount;
+            } else if (t.type === 'income') {
+                showTab('extra-sales');
+                document.getElementById('extraId').value = t.id;
+                document.getElementById('extraCategory').value = t.category;
+                document.getElementById('extraNote').value = t.note;
+                document.getElementById('extraAmount').value = t.amount;
+            } else {
+                showTab('expenses');
+                document.getElementById('expId').value = t.id;
+                document.getElementById('expCategory').value = t.category;
+                document.getElementById('expNote').value = t.note;
+                document.getElementById('expAmount').value = t.amount;
+            }
+        };
+
+        window.deleteTx = async (id) => {
+            if (confirm("Hapus data ini?")) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id));
+                showToast("Dihapus");
+            }
+        };
+
+        window.printTx = (id) => {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+            document.getElementById('receipt-content').innerHTML = `
+                <p>No: ${t.id.substring(0,8).toUpperCase()}</p>
+                <p>Tgl: ${new Date().toLocaleDateString('id-ID')}</p>
+                <p>Unit: ${t.unit || t.category}</p>
+                <hr style="border-top: 1px dashed #000;">
+                <p><strong>Item: ${t.guest || t.note}</strong></p>
+                <p style="font-size: 16px; text-align: right;"><strong>${formatIDR(t.amount)}</strong></p>
+            `;
+            window.print();
+        };
+
+        const showToast = (m) => {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = m;
+            t.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
+        };
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
