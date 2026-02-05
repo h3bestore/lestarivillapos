@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lestari Villa POS - Cloud Management</title>
+    <title>Lestari POS System by isa - Cloud Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -57,7 +57,7 @@
                     <img src="https://i.imgur.com/P6Wqb1u.png" alt="Lestari Villa Logo" class="h-24 mx-auto object-contain drop-shadow-xl" onerror="this.src='https://ui-avatars.com/api/?name=Lestari+Villa&background=059669&color=fff&size=128'">
                 </div>
                 <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tighter">LESTARI POS</h1>
-                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Management System Cloud</p>
+                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">System by isa | Cloud Connect</p>
             </div>
             
             <form id="loginForm" class="space-y-4">
@@ -75,7 +75,7 @@
                     <i data-lucide="shield-check" class="w-5 h-5"></i>
                 </button>
             </form>
-            <p class="text-center mt-8 text-[9px] text-slate-400 font-bold uppercase tracking-widest">Secure Cloud Access</p>
+            <p class="text-center mt-8 text-[9px] text-slate-400 font-bold uppercase tracking-widest text-white/60">Secure Cloud Access</p>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
                     </div>
                     <div class="leading-none">
                         <span class="font-black text-xl tracking-tighter block uppercase">LESTARI</span>
-                        <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-[0.2em]">Villa Cloud</span>
+                        <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-[0.2em]">POS by isa</span>
                     </div>
                 </div>
                 <div class="space-y-1.5" id="nav-items">
@@ -117,6 +117,7 @@
                     <i data-lucide="power" class="w-4 h-4"></i> Keluar
                 </button>
                 <p id="userIdDisplay" class="text-[9px] text-center text-slate-400 font-mono truncate mt-2"></p>
+                <p class="text-[8px] text-center text-slate-300 font-bold uppercase mt-1 tracking-widest">Cloud Connect</p>
             </div>
         </nav>
 
@@ -129,7 +130,7 @@
                     <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
                         <div>
                             <h2 class="text-3xl font-black text-slate-800 tracking-tight uppercase">Dashboard</h2>
-                            <p id="greetingText" class="text-slate-500 font-medium italic">Laporan Bulan Berjalan</p>
+                            <p id="greetingText" class="text-slate-500 font-medium italic">Memuat sapaan...</p>
                         </div>
                         
                         <!-- Month Picker -->
@@ -446,7 +447,7 @@
                         </button>
                     </div>
 
-                    <!-- NEW: Journal Filter -->
+                    <!-- Journal Filter -->
                     <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-end">
                         <div class="w-full md:w-auto">
                             <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Dari Tanggal</label>
@@ -491,12 +492,12 @@
     <div id="receipt-print" class="hidden p-6 text-black" style="font-family: 'Courier New', Courier, monospace; font-size: 12px; width: 300px;">
         <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
             <h2 style="font-size: 18px; margin: 0;">LESTARI POS</h2>
-            <p style="margin: 0;">Villa Management System</p>
+            <p style="margin: 0;">System by isa</p>
         </div>
         <div id="receipt-content"></div>
         <div style="text-align: center; border-top: 1px dashed #000; padding-top: 10px; margin-top: 10px;">
             <p>Terima Kasih</p>
-            <p style="font-size: 10px;">*system by Isa*</p>
+            <p style="font-size: 10px;">*Cloud Connect System*</p>
         </div>
     </div>
 
@@ -526,10 +527,9 @@
         const appId = "lestarivillapos";
 
         let transactions = [];
-        let journalData = []; // Data specifically for journal table
+        let journalData = []; 
         let currentUser = null;
 
-        // Inisialisasi default bulan & tanggal
         window.addEventListener('DOMContentLoaded', () => {
             const now = new Date();
             const year = now.getFullYear();
@@ -539,13 +539,24 @@
 
             document.getElementById('dashboardMonthFilter').value = `${year}-${month}`;
             
-            // Set default dates for manual input
             if(document.getElementById('resDate')) document.getElementById('resDate').value = todayStr;
             if(document.getElementById('extraDate')) document.getElementById('extraDate').value = todayStr;
             if(document.getElementById('expDate')) document.getElementById('expDate').value = todayStr;
+
+            updateGreeting();
         });
 
-        // Form Login
+        const updateGreeting = () => {
+            const hour = new Date().getHours();
+            let greet = "Selamat Malam";
+            if (hour < 11) greet = "Selamat Pagi";
+            else if (hour < 15) greet = "Selamat Siang";
+            else if (hour < 19) greet = "Selamat Sore";
+            
+            const userEmail = currentUser ? currentUser.email.split('@')[0] : 'Admin';
+            document.getElementById('greetingText').innerText = `${greet}, ${userEmail.charAt(0).toUpperCase() + userEmail.slice(1)}! Berikut laporan bulan ini.`;
+        };
+
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = btnLogin;
@@ -571,6 +582,7 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appContainer').classList.remove('hidden');
                 document.getElementById('userIdDisplay').innerText = user.email;
+                updateGreeting();
                 initSync();
             }
         });
@@ -583,6 +595,8 @@
                 
                 updateUI();
                 applyJournalFilter();
+            }, (err) => {
+                console.error("Firestore error:", err);
             });
         };
 
@@ -597,10 +611,7 @@
         window.updateUI = () => {
             const filterVal = document.getElementById('dashboardMonthFilter').value;
             const [selYear, selMonth] = filterVal.split('-').map(Number);
-            const now = new Date();
-            const currentYear = now.getFullYear();
 
-            // Init counters
             let caramelloMonthIn = 0, caramelloMonthOut = 0;
             let vanillaMonthIn = 0, vanillaMonthOut = 0;
             let caramelloYtdIn = 0, caramelloYtdOut = 0;
@@ -629,7 +640,6 @@
                 else if(payment.includes('BSI')) pKey = 'BSI';
                 else if(payment.includes('BRI')) pKey = 'BRI';
 
-                // YTD Logic
                 if (isSelectedYear) {
                     if (t.type === 'income') {
                         ytdGlobalIn += amt;
@@ -642,37 +652,31 @@
                     }
                 }
 
-                // Monthly Logic
                 if (isSelectedMonth) {
                     if (t.type === 'income') {
                         totalIn += amt;
                         if (isCaramello) {
                             caramelloMonthIn += amt;
-                            if (caramelloInAcc[pKey] !== undefined) caramelloInAcc[pKey] += amt;
-                            else caramelloInAcc['Bank Lain'] += amt;
+                            caramelloInAcc[pKey] += amt;
                         }
                         if (isVanilla) {
                             vanillaMonthIn += amt;
-                            if (vanillaInAcc[pKey] !== undefined) vanillaInAcc[pKey] += amt;
-                            else vanillaInAcc['Bank Lain'] += amt;
+                            vanillaInAcc[pKey] += amt;
                         }
                     } else {
                         totalOut += amt;
                         if (isCaramello) {
                             caramelloMonthOut += amt;
-                            if (caramelloOutAcc[pKey] !== undefined) caramelloOutAcc[pKey] += amt;
-                            else caramelloOutAcc['Bank Lain'] += amt;
+                            caramelloOutAcc[pKey] += amt;
                         }
                         if (isVanilla) {
                             vanillaMonthOut += amt;
-                            if (vanillaOutAcc[pKey] !== undefined) vanillaOutAcc[pKey] += amt;
-                            else vanillaOutAcc['Bank Lain'] += amt;
+                            vanillaOutAcc[pKey] += amt;
                         }
                     }
                 }
             });
 
-            // Update DOM
             document.getElementById('caramelloMonthIn').innerText = formatIDR(caramelloMonthIn);
             document.getElementById('caramelloMonthOut').innerText = formatIDR(caramelloMonthOut);
             document.getElementById('caramelloYtdIn').innerText = formatIDR(caramelloYtdIn);
@@ -687,12 +691,10 @@
             document.getElementById('statTotalExpense').innerText = formatIDR(totalOut);
             document.getElementById('statNetProfit').innerText = formatIDR(totalIn - totalOut);
 
-            // Update Global YTD
             document.getElementById('statYtdOmzet').innerText = formatIDR(ytdGlobalIn);
             document.getElementById('statYtdExpense').innerText = formatIDR(ytdGlobalOut);
             document.getElementById('statYtdNet').innerText = formatIDR(ytdGlobalIn - ytdGlobalOut);
 
-            // Render Breakdowns
             const renderList = (id, data, color) => {
                 const el = document.getElementById(id);
                 el.innerHTML = Object.entries(data).map(([k, v]) => 
@@ -706,7 +708,6 @@
             renderList('vanillaOutBreakdown', vanillaOutAcc, 'text-rose-600 font-bold');
         };
 
-        // NEW: Journal Filter Functions
         window.applyJournalFilter = () => {
             const start = document.getElementById('journalStart').value;
             const end = document.getElementById('journalEnd').value;
@@ -755,15 +756,12 @@
             if (!currentUser) return;
             const id = document.getElementById(idField).value;
             
-            // Handle manual date
             let inputDateStr = "";
             if (formId === 'reservationForm') inputDateStr = document.getElementById('resDate').value;
             else if (formId === 'extraSalesForm') inputDateStr = document.getElementById('extraDate').value;
             else if (formId === 'expenseForm') inputDateStr = document.getElementById('expDate').value;
 
-            // Use manual date or fallback to current
             const finalDate = inputDateStr ? Timestamp.fromDate(new Date(inputDateStr)) : Timestamp.now();
-
             const finalData = { ...data, date: finalDate };
 
             try {
@@ -777,7 +775,6 @@
                 document.getElementById(formId).reset();
                 document.getElementById(idField).value = "";
                 
-                // Reset date to today
                 const now = new Date();
                 const todayStr = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
                 if(document.getElementById('resDate')) document.getElementById('resDate').value = todayStr;
@@ -820,7 +817,6 @@
             const t = transactions.find(x => x.id === id);
             if (!t) return;
             
-            // Convert timestamp to YYYY-MM-DD
             const txDate = t.date ? new Date(t.date.seconds * 1000).toISOString().split('T')[0] : '';
 
             if (t.type === 'income' && t.checkIn) {
