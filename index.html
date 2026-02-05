@@ -20,10 +20,25 @@
         }
 
         .login-gradient {
-            background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background Icon Style */
+        .login-bg-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+            filter: brightness(0.8) grayscale(0.2);
         }
 
-        /* Custom scrollbar for better look */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
@@ -31,36 +46,40 @@
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
 
-    <!-- LOGIN PAGE -->
+    <!-- HALAMAN LOGIN -->
     <div id="loginPage" class="fixed inset-0 z-[200] flex items-center justify-center login-gradient p-4">
-        <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md">
+        <!-- Logo Background -->
+        <img src="https://i.imgur.com/P6Wqb1u.png" class="login-bg-icon" alt="Lestari Villa Background">
+        
+        <div class="bg-white/95 backdrop-blur-md p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md relative z-10 border border-white/20">
             <div class="text-center mb-10">
-                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                    <i data-lucide="lock" class="w-10 h-10"></i>
+                <div class="mb-6">
+                    <img src="https://i.imgur.com/P6Wqb1u.png" alt="Lestari Villa Logo" class="h-24 mx-auto object-contain drop-shadow-xl" onerror="this.src='https://ui-avatars.com/api/?name=Lestari+Villa&background=059669&color=fff&size=128'">
                 </div>
-                <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tighter">LESTARI POS</h1>
-                <p class="text-xs italic text-slate-400">system by Isa</p>
+                <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tighter">LESTARI POS</h1>
+                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Management System Cloud</p>
             </div>
             
             <form id="loginForm" class="space-y-4">
                 <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Email System</label>
-                    <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="nama@lestarivilla.com" required>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Email Akses</label>
+                    <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-2xl bg-slate-100 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="admin@lestarivilla.com" required>
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Kata Sandi</label>
-                    <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="••••••••" required>
+                    <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-2xl bg-slate-100 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500" placeholder="••••••••" required>
                 </div>
                 
                 <button type="submit" id="btnLogin" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-3 mt-4">
                     <span id="loginBtnText">Masuk Ke System</span>
-                    <i data-lucide="log-in" class="w-5 h-5"></i>
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
                 </button>
             </form>
+            <p class="text-center mt-8 text-[9px] text-slate-400 font-bold uppercase tracking-widest">Secure Cloud Access</p>
         </div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
+    <!-- KONTAINER APLIKASI UTAMA -->
     <div id="appContainer" class="hidden flex flex-col md:flex-row min-h-screen">
         
         <!-- Sidebar -->
@@ -72,128 +91,191 @@
                     </div>
                     <div class="leading-none">
                         <span class="font-black text-xl tracking-tighter block uppercase">LESTARI</span>
-                        <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-[0.2em]">Management</span>
+                        <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-[0.2em]">Villa Cloud</span>
                     </div>
                 </div>
                 <div class="space-y-1.5" id="nav-items">
                     <button onclick="showTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-dashboard">
-                        <i data-lucide="pie-chart" class="w-5 h-5"></i><span>Ringkasan</span>
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>Ringkasan</span>
                     </button>
                     <button onclick="showTab('reservation')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-reservation">
-                        <i data-lucide="key" class="w-5 h-5"></i><span>Reservasi</span>
+                        <i data-lucide="calendar-check" class="w-5 h-5"></i><span>Booking</span>
                     </button>
                     <button onclick="showTab('extra-sales')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-extra-sales">
-                        <i data-lucide="shopping-cart" class="w-5 h-5"></i><span>Penjualan</span>
+                        <i data-lucide="baggage-claim" class="w-5 h-5"></i><span>Penjualan</span>
                     </button>
                     <button onclick="showTab('expenses')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-expenses">
-                        <i data-lucide="wallet" class="w-5 h-5"></i><span>Operasional</span>
+                        <i data-lucide="wallet" class="w-5 h-5"></i><span>Biaya</span>
                     </button>
                     <button onclick="showTab('reports')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl transition text-slate-500 font-bold hover:bg-slate-50" id="btn-reports">
-                        <i data-lucide="scroll-text" class="w-5 h-5"></i><span>Laporan</span>
+                        <i data-lucide="files" class="w-5 h-5"></i><span>Jurnal</span>
                     </button>
                 </div>
             </div>
-            <div class="mt-auto p-6 border-t border-slate-100 bg-slate-50/50">
-                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 text-rose-500 font-black text-xs uppercase tracking-widest mb-4 hover:opacity-70">
-                    <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+            <div class="mt-auto p-6 border-t border-slate-100">
+                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 text-rose-500 font-black text-[10px] uppercase tracking-widest py-3 hover:bg-rose-50 rounded-xl transition">
+                    <i data-lucide="power" class="w-4 h-4"></i> Keluar
                 </button>
-                <div class="flex items-center space-x-3 mb-2">
-                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Cloud Connected</span>
-                </div>
-                <p id="userIdDisplay" class="text-[9px] text-slate-400 font-mono truncate"></p>
+                <p id="userIdDisplay" class="text-[9px] text-center text-slate-400 font-mono truncate mt-2"></p>
             </div>
         </nav>
 
-        <!-- Main Content -->
+        <!-- Konten Utama -->
         <main class="flex-1 overflow-y-auto">
-            <div class="p-6 md:p-10 max-w-7xl mx-auto">
+            <div class="p-6 md:p-10 max-w-7xl mx-auto space-y-10">
                 
                 <!-- Tab: Dashboard -->
-                <div id="tab-dashboard" class="tab-content active space-y-8">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                <div id="tab-dashboard" class="tab-content active space-y-10">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
                         <div>
-                            <h2 id="greetingText" class="text-3xl font-black text-slate-800 tracking-tight uppercase">Halo!</h2>
-                            <p id="welcomeUser" class="text-slate-500 font-medium italic">Sistem Cloud sedang memuat data...</p>
+                            <h2 class="text-3xl font-black text-slate-800 tracking-tight uppercase">Dashboard</h2>
+                            <p id="greetingText" class="text-slate-500 font-medium italic">Laporan Bulan Berjalan</p>
                         </div>
-                        <p id="currentDate" class="text-xs font-black text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full uppercase tracking-widest self-start"></p>
+                        
+                        <!-- Month Picker -->
+                        <div class="bg-white p-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+                            <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-3">Pilih Periode:</label>
+                            <input type="month" id="dashboardMonthFilter" onchange="updateUI()" class="px-4 py-2 bg-slate-50 rounded-xl font-bold text-xs outline-none focus:ring-2 focus:ring-emerald-500 border-none">
+                        </div>
                     </div>
 
-                    <!-- Statistik per Villa -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-amber-50 rounded-[2.5rem] p-8 border border-amber-100 shadow-sm relative overflow-hidden">
-                            <div class="relative z-10">
-                                <h4 class="text-amber-800 font-black text-xl uppercase tracking-tighter mb-4 flex items-center gap-2">
-                                    <i data-lucide="star" class="w-5 h-5"></i> Villa Caramello
-                                </h4>
+                    <!-- VILLA CARAMELLO SECTION -->
+                    <div class="bg-amber-50 rounded-[2.5rem] p-8 border border-amber-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-amber-200 rounded-full flex items-center justify-center text-amber-700">
+                                <i data-lucide="crown" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black uppercase text-amber-900 tracking-wider">Villa Caramello</h3>
+                                <p class="text-[10px] text-amber-600 font-bold uppercase tracking-widest">Laporan Keuangan</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Stats -->
+                            <div class="space-y-6">
                                 <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p class="text-[9px] font-black uppercase text-amber-600/60 mb-1">Pemasukan</p>
-                                        <p id="statCaramelloIn" class="text-xl font-black text-amber-900">Rp 0</p>
+                                    <div class="bg-white/60 p-4 rounded-2xl">
+                                        <p class="text-[9px] font-black uppercase text-amber-800/50">Omzet Bulan Ini</p>
+                                        <p id="caramelloMonthIn" class="text-xl font-black text-amber-900">Rp 0</p>
                                     </div>
-                                    <div>
-                                        <p class="text-[9px] font-black uppercase text-rose-600/60 mb-1">Pengeluaran</p>
-                                        <p id="statCaramelloOut" class="text-xl font-black text-rose-700">Rp 0</p>
+                                    <div class="bg-white/60 p-4 rounded-2xl">
+                                        <p class="text-[9px] font-black uppercase text-rose-800/50">Biaya Bulan Ini</p>
+                                        <p id="caramelloMonthOut" class="text-xl font-black text-rose-600">Rp 0</p>
                                     </div>
-                                </div>
-                                <div class="mt-4 pt-4 border-t border-amber-200/50">
-                                    <p class="text-[9px] font-black uppercase text-amber-800/40">Profit Bersih</p>
-                                    <p id="statCaramelloNet" class="text-2xl font-black text-emerald-700">Rp 0</p>
+                                    <div class="bg-white/30 p-4 rounded-2xl border border-amber-200/50">
+                                        <p class="text-[9px] font-black uppercase text-amber-800/50">Total Omzet (Tahun Ini)</p>
+                                        <p id="caramelloYtdIn" class="text-base font-bold text-amber-800">Rp 0</p>
+                                    </div>
+                                    <div class="bg-white/30 p-4 rounded-2xl border border-amber-200/50">
+                                        <p class="text-[9px] font-black uppercase text-rose-800/50">Total Biaya (Tahun Ini)</p>
+                                        <p id="caramelloYtdOut" class="text-base font-bold text-rose-800">Rp 0</p>
+                                    </div>
                                 </div>
                             </div>
-                            <i data-lucide="home" class="absolute -right-4 -bottom-4 w-32 h-32 text-amber-200/30 rotate-12"></i>
-                        </div>
-
-                        <div class="bg-pink-50 rounded-[2.5rem] p-8 border border-pink-100 shadow-sm relative overflow-hidden">
-                            <div class="relative z-10">
-                                <h4 class="text-pink-800 font-black text-xl uppercase tracking-tighter mb-4 flex items-center gap-2">
-                                    <i data-lucide="star" class="w-5 h-5"></i> Villa Vanilla
-                                </h4>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p class="text-[9px] font-black uppercase text-pink-600/60 mb-1">Pemasukan</p>
-                                        <p id="statVanillaIn" class="text-xl font-black text-pink-900">Rp 0</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-[9px] font-black uppercase text-rose-600/60 mb-1">Pengeluaran</p>
-                                        <p id="statVanillaOut" class="text-xl font-black text-rose-700">Rp 0</p>
-                                    </div>
+                            <!-- Breakdown -->
+                            <div class="grid grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <p class="font-black uppercase text-emerald-600 mb-2 border-b border-amber-200 pb-1">Rincian Pemasukan</p>
+                                    <div id="caramelloInBreakdown" class="space-y-1"></div>
                                 </div>
-                                <div class="mt-4 pt-4 border-t border-pink-200/50">
-                                    <p class="text-[9px] font-black uppercase text-pink-800/40">Profit Bersih</p>
-                                    <p id="statVanillaNet" class="text-2xl font-black text-emerald-700">Rp 0</p>
+                                <div>
+                                    <p class="font-black uppercase text-rose-600 mb-2 border-b border-amber-200 pb-1">Rincian Pengeluaran</p>
+                                    <div id="caramelloOutBreakdown" class="space-y-1"></div>
                                 </div>
                             </div>
-                            <i data-lucide="home" class="absolute -right-4 -bottom-4 w-32 h-32 text-pink-200/30 -rotate-12"></i>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                            <p class="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Total Omzet Gabungan</p>
-                            <h3 id="statTotalOmzet" class="text-2xl font-black text-slate-800">Rp 0</h3>
+                    <!-- VILLA VANILLA SECTION -->
+                    <div class="bg-blue-50 rounded-[2.5rem] p-8 border border-blue-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center text-blue-700">
+                                <i data-lucide="home" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black uppercase text-blue-900 tracking-wider">Villa Vanilla</h3>
+                                <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Laporan Keuangan</p>
+                            </div>
                         </div>
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                            <p class="text-slate-400 text-[9px] font-black uppercase tracking-widest mb-1">Total Biaya Operasional</p>
-                            <h3 id="statTotalExpense" class="text-2xl font-black text-rose-600">Rp 0</h3>
-                        </div>
-                        <div class="bg-emerald-600 p-6 rounded-3xl shadow-xl shadow-emerald-100 text-white">
-                            <p class="text-emerald-100 text-[9px] font-black uppercase tracking-widest mb-1">Grand Profit Netto</p>
-                            <h3 id="statNetProfit" class="text-2xl font-black">Rp 0</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Stats -->
+                            <div class="space-y-6">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-white/60 p-4 rounded-2xl">
+                                        <p class="text-[9px] font-black uppercase text-blue-800/50">Omzet Bulan Ini</p>
+                                        <p id="vanillaMonthIn" class="text-xl font-black text-blue-900">Rp 0</p>
+                                    </div>
+                                    <div class="bg-white/60 p-4 rounded-2xl">
+                                        <p class="text-[9px] font-black uppercase text-rose-800/50">Biaya Bulan Ini</p>
+                                        <p id="vanillaMonthOut" class="text-xl font-black text-rose-600">Rp 0</p>
+                                    </div>
+                                    <div class="bg-white/30 p-4 rounded-2xl border border-blue-200/50">
+                                        <p class="text-[9px] font-black uppercase text-blue-800/50">Total Omzet (Tahun Ini)</p>
+                                        <p id="vanillaYtdIn" class="text-base font-bold text-blue-800">Rp 0</p>
+                                    </div>
+                                    <div class="bg-white/30 p-4 rounded-2xl border border-blue-200/50">
+                                        <p class="text-[9px] font-black uppercase text-rose-800/50">Total Biaya (Tahun Ini)</p>
+                                        <p id="vanillaYtdOut" class="text-base font-bold text-rose-800">Rp 0</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Breakdown -->
+                            <div class="grid grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <p class="font-black uppercase text-emerald-600 mb-2 border-b border-blue-200 pb-1">Rincian Pemasukan</p>
+                                    <div id="vanillaInBreakdown" class="space-y-1"></div>
+                                </div>
+                                <div>
+                                    <p class="font-black uppercase text-rose-600 mb-2 border-b border-blue-200 pb-1">Rincian Pengeluaran</p>
+                                    <div id="vanillaOutBreakdown" class="space-y-1"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Global Summary Row -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-2 bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
-                            <h4 class="font-black text-slate-800 uppercase tracking-tight mb-6 flex items-center gap-2">
+                            <h4 class="font-black text-slate-800 uppercase tracking-tight mb-6 flex items-center gap-2 text-xs">
                                 <i data-lucide="zap" class="text-amber-500 w-5 h-5"></i> Aktivitas Terkini
                             </h4>
-                            <div id="recentTransactions" class="space-y-3"></div>
+                            <div id="recentTransactions" class="space-y-4"></div>
                         </div>
-                        <div class="bg-slate-800 rounded-[2rem] p-8 text-white shadow-xl overflow-hidden relative">
-                            <h4 class="font-black uppercase tracking-tight mb-6 relative z-10">Metode Pembayaran</h4>
-                            <div id="paymentSummary" class="space-y-4 relative z-10"></div>
-                            <i data-lucide="credit-card" class="absolute -right-8 -bottom-8 w-40 h-40 text-white/5"></i>
+                        <div class="bg-emerald-50 rounded-[2rem] p-8 border border-emerald-100 shadow-sm">
+                            <h4 class="font-black uppercase tracking-tight mb-6 text-xs text-emerald-800">Total Kas Keseluruhan</h4>
+                            <div class="space-y-6">
+                                <div>
+                                    <p class="text-[9px] font-black uppercase text-emerald-400 mb-1">Total Omzet (Bulan Ini)</p>
+                                    <p id="statTotalOmzet" class="text-2xl font-black text-slate-800">Rp 0</p>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-black uppercase text-rose-400 mb-1">Total Biaya (Bulan Ini)</p>
+                                    <p id="statTotalExpense" class="text-2xl font-black text-rose-600">Rp 0</p>
+                                </div>
+                                <div class="pt-4 border-t border-emerald-200">
+                                    <p class="text-[9px] font-black uppercase text-emerald-600 mb-1">Saldo Akhir (Bulan Ini)</p>
+                                    <p id="statNetProfit" class="text-3xl font-black text-emerald-700">Rp 0</p>
+                                </div>
+                                <div class="pt-6 border-t border-emerald-200/50">
+                                    <h5 class="font-black uppercase text-[10px] text-emerald-800 mb-3">Ringkasan Year to Date</h5>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-[8px] font-black uppercase text-emerald-400">Total Pendapatan</p>
+                                            <p id="statYtdOmzet" class="text-sm font-black text-slate-700">Rp 0</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[8px] font-black uppercase text-rose-400">Total Pengeluaran</p>
+                                            <p id="statYtdExpense" class="text-sm font-black text-slate-700">Rp 0</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <p class="text-[8px] font-black uppercase text-emerald-600">Saldo Netto YTD</p>
+                                        <p id="statYtdNet" class="text-base font-black text-emerald-700">Rp 0</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,6 +289,10 @@
                         <form id="reservationForm" class="space-y-6">
                             <input type="hidden" id="resId">
                             <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Tanggal Transaksi</label>
+                                    <input type="date" id="resDate" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required>
+                                </div>
                                 <div class="col-span-2">
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Unit Villa</label>
                                     <select id="resUnit" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-emerald-500">
@@ -226,6 +312,8 @@
                                         <option value="Cash">Cash (Tunai)</option>
                                         <option value="Transfer BSI">Transfer BSI</option>
                                         <option value="Transfer Mandiri">Transfer Mandiri</option>
+                                        <option value="Transfer BRI">Transfer BRI</option>
+                                        <option value="Transfer Bank Lain">Transfer Bank Lain</option>
                                     </select>
                                 </div>
                                 <div class="col-span-1">
@@ -247,6 +335,10 @@
                         <form id="extraSalesForm" class="space-y-6">
                             <input type="hidden" id="extraId">
                             <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Tanggal Transaksi</label>
+                                    <input type="date" id="extraDate" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required>
+                                </div>
                                 <div class="col-span-1">
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Alokasi Unit</label>
                                     <select id="extraUnit" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-blue-500">
@@ -272,6 +364,8 @@
                                         <option value="Cash">Cash (Tunai)</option>
                                         <option value="Transfer BSI">Transfer BSI</option>
                                         <option value="Transfer Mandiri">Transfer Mandiri</option>
+                                        <option value="Transfer BRI">Transfer BRI</option>
+                                        <option value="Transfer Bank Lain">Transfer Bank Lain</option>
                                     </select>
                                 </div>
                                 <div class="col-span-1">
@@ -293,6 +387,10 @@
                         <form id="expenseForm" class="space-y-6">
                             <input type="hidden" id="expId">
                             <div class="grid grid-cols-2 gap-6">
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Tanggal Transaksi</label>
+                                    <input type="date" id="expDate" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none" required>
+                                </div>
                                 <div class="col-span-1">
                                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Bebankan Ke Unit</label>
                                     <select id="expUnit" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border-none font-bold outline-none focus:ring-2 focus:ring-rose-500">
@@ -325,6 +423,8 @@
                                         <option value="Cash">Kas Kecil (Cash)</option>
                                         <option value="Transfer BSI">Rek BSI</option>
                                         <option value="Transfer Mandiri">Rek Mandiri</option>
+                                        <option value="Transfer BRI">Rek BRI</option>
+                                        <option value="Transfer Bank Lain">Rek Bank Lain</option>
                                     </select>
                                 </div>
                                 <div class="col-span-1">
@@ -337,83 +437,45 @@
                     </div>
                 </div>
 
-                <!-- Tab: Reports (UPDATED) -->
+                <!-- Tab: Reports -->
                 <div id="tab-reports" class="tab-content space-y-6 pb-20">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tight">Laporan Cloud Terpadu</h2>
+                        <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tight">Jurnal Jurnal Transaksi</h2>
                         <button onclick="window.print()" class="bg-white border border-slate-200 px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-slate-50 transition shadow-sm">
-                            <i data-lucide="printer" class="w-4 h-4"></i> Cetak Laporan
+                            <i data-lucide="printer" class="w-4 h-4"></i> Cetak Jurnal
                         </button>
                     </div>
 
-                    <!-- Filter Panel -->
-                    <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                            <div>
-                                <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Dari Tanggal</label>
-                                <input type="date" id="filterStart" class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none font-bold outline-none text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Sampai Tanggal</label>
-                                <input type="date" id="filterEnd" class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none font-bold outline-none text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Jenis Transaksi</label>
-                                <select id="filterType" class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none font-bold outline-none text-xs">
-                                    <option value="all">Semua Transaksi</option>
-                                    <option value="income">Pemasukan Saja</option>
-                                    <option value="expense">Pengeluaran Saja</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Cari Item/Kategori</label>
-                                <input type="text" id="filterSearch" placeholder="Ketik nama tamu/item..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border-none font-bold outline-none text-xs">
-                            </div>
+                    <!-- NEW: Journal Filter -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-end">
+                        <div class="w-full md:w-auto">
+                            <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Dari Tanggal</label>
+                            <input type="date" id="journalStart" class="w-full md:w-auto px-4 py-2 bg-slate-50 rounded-xl font-bold text-xs outline-none focus:ring-2 focus:ring-emerald-500 border-none">
                         </div>
-                        <div class="flex justify-end pt-2 border-t border-slate-50">
-                            <button onclick="applyFilters()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition">Terapkan Filter</button>
+                        <div class="w-full md:w-auto">
+                            <label class="block text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Sampai Tanggal</label>
+                            <input type="date" id="journalEnd" class="w-full md:w-auto px-4 py-2 bg-slate-50 rounded-xl font-bold text-xs outline-none focus:ring-2 focus:ring-emerald-500 border-none">
+                        </div>
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <button onclick="applyJournalFilter()" class="flex-1 md:flex-none bg-slate-800 text-white px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition h-[34px]">
+                                Filter
+                            </button>
+                            <button onclick="resetJournalFilter()" class="flex-1 md:flex-none bg-slate-200 text-slate-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-300 transition h-[34px]">
+                                Reset
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Laporan Per Kategori & Analisis -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Top Categories (Income) -->
-                        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-                            <h4 class="text-[10px] font-black uppercase tracking-widest text-emerald-600 mb-6 flex items-center gap-2">
-                                <i data-lucide="trending-up" class="w-4 h-4"></i> Analisis Pemasukan Per Item
-                            </h4>
-                            <div id="categoryIncomeList" class="space-y-4">
-                                <!-- Data injected via JS -->
-                            </div>
-                        </div>
-                        
-                        <!-- Top Expenses -->
-                        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-                            <h4 class="text-[10px] font-black uppercase tracking-widest text-rose-600 mb-6 flex items-center gap-2">
-                                <i data-lucide="trending-down" class="w-4 h-4"></i> Analisis Biaya Per Kategori
-                            </h4>
-                            <div id="categoryExpenseList" class="space-y-4">
-                                <!-- Data injected via JS -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tabel History Detail -->
-                    <div class="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
-                        <div class="p-8 border-b border-slate-50 flex justify-between items-center">
-                            <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Log Transaksi Terfilter</h4>
-                            <span id="filterCountDisplay" class="text-[9px] bg-slate-100 px-3 py-1 rounded-full font-black text-slate-500 uppercase">0 Data</span>
-                        </div>
+                    <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
                                 <thead class="bg-slate-50 border-b border-slate-100">
                                     <tr>
-                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Waktu</th>
-                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Unit</th>
-                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Keterangan</th>
-                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment</th>
-                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Nominal</th>
-                                        <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Aksi</th>
+                                        <th class="px-8 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest">Tgl</th>
+                                        <th class="px-8 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest">Unit</th>
+                                        <th class="px-8 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest">Uraian</th>
+                                        <th class="px-8 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Debit / Kredit</th>
+                                        <th class="px-8 py-5 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="transactionTableBody" class="divide-y divide-slate-50"></tbody>
@@ -421,7 +483,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </main>
     </div>
@@ -439,8 +500,8 @@
         </div>
     </div>
 
-    <!-- Toast -->
-    <div id="toast" class="fixed bottom-8 right-8 translate-y-20 opacity-0 transition-all duration-500 bg-slate-900 text-white px-8 py-4 rounded-3xl shadow-2xl z-[300] font-bold">
+    <!-- NOTIFIKASI TOAST -->
+    <div id="toast" class="fixed bottom-8 right-8 translate-y-20 opacity-0 transition-all duration-500 bg-slate-900 text-white px-8 py-4 rounded-3xl shadow-2xl z-[300] font-bold text-xs uppercase tracking-widest">
         <span id="toastMsg">Berhasil!</span>
     </div>
 
@@ -465,10 +526,26 @@
         const appId = "lestarivillapos";
 
         let transactions = [];
-        let filteredTransactions = [];
+        let journalData = []; // Data specifically for journal table
         let currentUser = null;
 
-        // Login Handler
+        // Inisialisasi default bulan & tanggal
+        window.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const todayStr = `${year}-${month}-${day}`;
+
+            document.getElementById('dashboardMonthFilter').value = `${year}-${month}`;
+            
+            // Set default dates for manual input
+            if(document.getElementById('resDate')) document.getElementById('resDate').value = todayStr;
+            if(document.getElementById('extraDate')) document.getElementById('extraDate').value = todayStr;
+            if(document.getElementById('expDate')) document.getElementById('expDate').value = todayStr;
+        });
+
+        // Form Login
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = btnLogin;
@@ -478,7 +555,7 @@
             try {
                 await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value.trim());
             } catch (err) {
-                showToast("Login gagal. Periksa Email/Password.");
+                showToast("Login gagal. Periksa kembali!");
             } finally {
                 btn.disabled = false; txt.innerText = "Masuk Ke System";
             }
@@ -487,16 +564,14 @@
         window.logout = () => signOut(auth).then(() => location.reload());
 
         const formatIDR = (n) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
-        const capitalize = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appContainer').classList.remove('hidden');
-                document.getElementById('userIdDisplay').innerText = "User: " + user.email;
+                document.getElementById('userIdDisplay').innerText = user.email;
                 initSync();
-                document.getElementById('greetingText').innerText = `Halo ${capitalize(user.email.split('@')[0])}!`;
             }
         });
 
@@ -505,8 +580,9 @@
             onSnapshot(query(txRef), (snapshot) => {
                 transactions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 transactions.sort((a, b) => (b.date?.seconds || 0) - (a.date?.seconds || 0));
-                filteredTransactions = [...transactions];
+                
                 updateUI();
+                applyJournalFilter();
             });
         };
 
@@ -518,144 +594,156 @@
             lucide.createIcons();
         };
 
-        // FILTER LOGIC
-        window.applyFilters = () => {
-            const start = document.getElementById('filterStart').value;
-            const end = document.getElementById('filterEnd').value;
-            const type = document.getElementById('filterType').value;
-            const search = document.getElementById('filterSearch').value.toLowerCase();
+        window.updateUI = () => {
+            const filterVal = document.getElementById('dashboardMonthFilter').value;
+            const [selYear, selMonth] = filterVal.split('-').map(Number);
+            const now = new Date();
+            const currentYear = now.getFullYear();
 
-            filteredTransactions = transactions.filter(t => {
-                const tDate = new Date(t.date.seconds * 1000).toISOString().split('T')[0];
-                const matchDate = (!start || tDate >= start) && (!end || tDate <= end);
-                const matchType = (type === 'all' || t.type === type);
-                const matchSearch = !search || 
-                    (t.guest || "").toLowerCase().includes(search) || 
-                    (t.note || "").toLowerCase().includes(search) || 
-                    (t.category || "").toLowerCase().includes(search) || 
-                    (t.unit || "").toLowerCase().includes(search);
-                
-                return matchDate && matchType && matchSearch;
-            });
+            // Init counters
+            let caramelloMonthIn = 0, caramelloMonthOut = 0;
+            let vanillaMonthIn = 0, vanillaMonthOut = 0;
+            let caramelloYtdIn = 0, caramelloYtdOut = 0;
+            let vanillaYtdIn = 0, vanillaYtdOut = 0;
+            let totalIn = 0, totalOut = 0;
+            let ytdGlobalIn = 0, ytdGlobalOut = 0;
 
-            updateUI();
-            showToast("Filter Diterapkan");
-        };
-
-        const updateUI = () => {
-            // Dashboard Global Stats (Always uses full data for overview)
-            let carIn = 0, carOut = 0, vanIn = 0, vanOut = 0;
-            let totalIncome = 0, totalExpense = 0;
-            const payMap = { 'Cash': 0, 'Transfer BSI': 0, 'Transfer Mandiri': 0 };
+            const caramelloInAcc = { 'Cash': 0, 'Mandiri': 0, 'BSI': 0, 'BRI': 0, 'Bank Lain': 0 };
+            const caramelloOutAcc = { 'Cash': 0, 'Mandiri': 0, 'BSI': 0, 'BRI': 0, 'Bank Lain': 0 };
+            const vanillaInAcc = { 'Cash': 0, 'Mandiri': 0, 'BSI': 0, 'BRI': 0, 'Bank Lain': 0 };
+            const vanillaOutAcc = { 'Cash': 0, 'Mandiri': 0, 'BSI': 0, 'BRI': 0, 'Bank Lain': 0 };
 
             transactions.forEach(t => {
                 const amt = t.amount || 0;
-                if (t.type === 'income') {
-                    totalIncome += amt;
-                    if (t.unit === 'Villa Caramello') carIn += amt;
-                    if (t.unit === 'Villa Vanilla') vanIn += amt;
-                } else {
-                    totalExpense += amt;
-                    if (t.unit === 'Villa Caramello') carOut += amt;
-                    if (t.unit === 'Villa Vanilla') vanOut += amt;
+                const date = new Date(t.date.seconds * 1000);
+                const isSelectedMonth = date.getMonth() === (selMonth - 1) && date.getFullYear() === selYear;
+                const isSelectedYear = date.getFullYear() === selYear;
+                const unit = t.unit || '';
+                const isCaramello = unit.includes('Caramello');
+                const isVanilla = unit.includes('Vanilla');
+                const payment = t.payment || 'Cash';
+                
+                let pKey = 'Bank Lain';
+                if(payment.includes('Cash')) pKey = 'Cash';
+                else if(payment.includes('Mandiri')) pKey = 'Mandiri';
+                else if(payment.includes('BSI')) pKey = 'BSI';
+                else if(payment.includes('BRI')) pKey = 'BRI';
+
+                // YTD Logic
+                if (isSelectedYear) {
+                    if (t.type === 'income') {
+                        ytdGlobalIn += amt;
+                        if (isCaramello) caramelloYtdIn += amt;
+                        if (isVanilla) vanillaYtdIn += amt;
+                    } else {
+                        ytdGlobalOut += amt;
+                        if (isCaramello) caramelloYtdOut += amt;
+                        if (isVanilla) vanillaYtdOut += amt;
+                    }
                 }
-                if (t.payment && payMap.hasOwnProperty(t.payment)) {
-                    payMap[t.payment] += (t.type === 'income' ? amt : -amt);
-                }
-            });
 
-            document.getElementById('statCaramelloIn').innerText = formatIDR(carIn);
-            document.getElementById('statCaramelloOut').innerText = formatIDR(carOut);
-            document.getElementById('statCaramelloNet').innerText = formatIDR(carIn - carOut);
-            document.getElementById('statVanillaIn').innerText = formatIDR(vanIn);
-            document.getElementById('statVanillaOut').innerText = formatIDR(vanOut);
-            document.getElementById('statVanillaNet').innerText = formatIDR(vanIn - vanOut);
-            document.getElementById('statTotalOmzet').innerText = formatIDR(totalIncome);
-            document.getElementById('statTotalExpense').innerText = formatIDR(totalExpense);
-            document.getElementById('statNetProfit').innerText = formatIDR(totalIncome - totalExpense);
-            document.getElementById('currentDate').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' });
-
-            // Dashboard Recent
-            const recent = document.getElementById('recentTransactions');
-            recent.innerHTML = transactions.slice(0, 6).map(t => `
-                <div class="flex justify-between items-center p-3 bg-white border border-slate-100 rounded-2xl shadow-sm">
-                    <div><p class="font-bold text-xs">${t.guest || t.note}</p><p class="text-[8px] uppercase font-black text-slate-400">${t.unit} • ${t.payment}</p></div>
-                    <span class="font-black ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'} text-sm">${t.type === 'income' ? '+' : '-'}${formatIDR(t.amount)}</span>
-                </div>
-            `).join('');
-
-            const ps = document.getElementById('paymentSummary');
-            ps.innerHTML = Object.entries(payMap).map(([k, v]) => `
-                <div class="flex justify-between items-center">
-                    <span class="text-xs text-slate-400 font-bold uppercase">${k}</span>
-                    <span class="font-black text-sm ${v >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${formatIDR(v)}</span>
-                </div>
-            `).join('');
-
-            // REPORTS TAB ANALYTICS (Uses Filtered Data)
-            renderAnalytics();
-            renderTable();
-        };
-
-        const renderAnalytics = () => {
-            const incomeAnalysis = {};
-            const expenseAnalysis = {};
-            let totalFIncome = 0;
-            let totalFExpense = 0;
-
-            filteredTransactions.forEach(t => {
-                const cat = t.category || (t.checkIn ? "Booking Villa" : "Lainnya");
-                if (t.type === 'income') {
-                    incomeAnalysis[cat] = (incomeAnalysis[cat] || 0) + t.amount;
-                    totalFIncome += t.amount;
-                } else {
-                    expenseAnalysis[cat] = (expenseAnalysis[cat] || 0) + t.amount;
-                    totalFExpense += t.amount;
+                // Monthly Logic
+                if (isSelectedMonth) {
+                    if (t.type === 'income') {
+                        totalIn += amt;
+                        if (isCaramello) {
+                            caramelloMonthIn += amt;
+                            if (caramelloInAcc[pKey] !== undefined) caramelloInAcc[pKey] += amt;
+                            else caramelloInAcc['Bank Lain'] += amt;
+                        }
+                        if (isVanilla) {
+                            vanillaMonthIn += amt;
+                            if (vanillaInAcc[pKey] !== undefined) vanillaInAcc[pKey] += amt;
+                            else vanillaInAcc['Bank Lain'] += amt;
+                        }
+                    } else {
+                        totalOut += amt;
+                        if (isCaramello) {
+                            caramelloMonthOut += amt;
+                            if (caramelloOutAcc[pKey] !== undefined) caramelloOutAcc[pKey] += amt;
+                            else caramelloOutAcc['Bank Lain'] += amt;
+                        }
+                        if (isVanilla) {
+                            vanillaMonthOut += amt;
+                            if (vanillaOutAcc[pKey] !== undefined) vanillaOutAcc[pKey] += amt;
+                            else vanillaOutAcc['Bank Lain'] += amt;
+                        }
+                    }
                 }
             });
 
-            const renderBar = (label, value, total, colorClass) => {
-                const perc = total > 0 ? (value / total * 100).toFixed(0) : 0;
-                return `
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-[10px] font-bold">
-                            <span class="text-slate-600">${label}</span>
-                            <span class="text-slate-800">${formatIDR(value)} (${perc}%)</span>
-                        </div>
-                        <div class="w-full bg-slate-50 h-2 rounded-full overflow-hidden">
-                            <div class="${colorClass} h-full" style="width: ${perc}%"></div>
-                        </div>
-                    </div>
-                `;
+            // Update DOM
+            document.getElementById('caramelloMonthIn').innerText = formatIDR(caramelloMonthIn);
+            document.getElementById('caramelloMonthOut').innerText = formatIDR(caramelloMonthOut);
+            document.getElementById('caramelloYtdIn').innerText = formatIDR(caramelloYtdIn);
+            document.getElementById('caramelloYtdOut').innerText = formatIDR(caramelloYtdOut);
+
+            document.getElementById('vanillaMonthIn').innerText = formatIDR(vanillaMonthIn);
+            document.getElementById('vanillaMonthOut').innerText = formatIDR(vanillaMonthOut);
+            document.getElementById('vanillaYtdIn').innerText = formatIDR(vanillaYtdIn);
+            document.getElementById('vanillaYtdOut').innerText = formatIDR(vanillaYtdOut);
+
+            document.getElementById('statTotalOmzet').innerText = formatIDR(totalIn);
+            document.getElementById('statTotalExpense').innerText = formatIDR(totalOut);
+            document.getElementById('statNetProfit').innerText = formatIDR(totalIn - totalOut);
+
+            // Update Global YTD
+            document.getElementById('statYtdOmzet').innerText = formatIDR(ytdGlobalIn);
+            document.getElementById('statYtdExpense').innerText = formatIDR(ytdGlobalOut);
+            document.getElementById('statYtdNet').innerText = formatIDR(ytdGlobalIn - ytdGlobalOut);
+
+            // Render Breakdowns
+            const renderList = (id, data, color) => {
+                const el = document.getElementById(id);
+                el.innerHTML = Object.entries(data).map(([k, v]) => 
+                    `<div class="flex justify-between border-b border-dashed border-slate-200 pb-1"><span>${k}</span><span class="${color}">${formatIDR(v)}</span></div>`
+                ).join('');
             };
 
-            const incList = document.getElementById('categoryIncomeList');
-            const sortedInc = Object.entries(incomeAnalysis).sort((a,b) => b[1] - a[1]);
-            incList.innerHTML = sortedInc.length ? sortedInc.map(([k, v]) => renderBar(k, v, totalFIncome, 'bg-emerald-500')).join('') : '<p class="text-xs text-slate-400 italic">Tidak ada data pemasukan</p>';
-
-            const expList = document.getElementById('categoryExpenseList');
-            const sortedExp = Object.entries(expenseAnalysis).sort((a,b) => b[1] - a[1]);
-            expList.innerHTML = sortedExp.length ? sortedExp.map(([k, v]) => renderBar(k, v, totalFExpense, 'bg-rose-500')).join('') : '<p class="text-xs text-slate-400 italic">Tidak ada data pengeluaran</p>';
+            renderList('caramelloInBreakdown', caramelloInAcc, 'text-emerald-600 font-bold');
+            renderList('caramelloOutBreakdown', caramelloOutAcc, 'text-rose-600 font-bold');
+            renderList('vanillaInBreakdown', vanillaInAcc, 'text-emerald-600 font-bold');
+            renderList('vanillaOutBreakdown', vanillaOutAcc, 'text-rose-600 font-bold');
         };
 
-        const renderTable = () => {
-            document.getElementById('filterCountDisplay').innerText = `${filteredTransactions.length} Data Terfilter`;
+        // NEW: Journal Filter Functions
+        window.applyJournalFilter = () => {
+            const start = document.getElementById('journalStart').value;
+            const end = document.getElementById('journalEnd').value;
+            
+            if (!start && !end) {
+                journalData = [...transactions];
+            } else {
+                journalData = transactions.filter(t => {
+                    const tDate = new Date(t.date.seconds * 1000).toISOString().split('T')[0];
+                    return (!start || tDate >= start) && (!end || tDate <= end);
+                });
+            }
+            renderFullTable();
+        };
+
+        window.resetJournalFilter = () => {
+            document.getElementById('journalStart').value = "";
+            document.getElementById('journalEnd').value = "";
+            applyJournalFilter();
+        };
+
+        const renderFullTable = () => {
             const b = document.getElementById('transactionTableBody');
-            b.innerHTML = filteredTransactions.map(t => `
+            b.innerHTML = journalData.map(t => `
                 <tr class="hover:bg-slate-50 transition">
-                    <td class="px-8 py-4 text-[10px] text-slate-400">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString('id-ID') : '...'}</td>
-                    <td class="px-8 py-4"><span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${t.unit?.includes('Caramello') ? 'bg-amber-100 text-amber-700' : (t.unit?.includes('Vanilla') ? 'bg-pink-100 text-pink-700' : 'bg-slate-100 text-slate-700')}">${t.unit}</span></td>
-                    <td class="px-8 py-4">
+                    <td class="px-8 py-5 text-[9px] text-slate-400 font-bold">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString('id-ID') : '-'}</td>
+                    <td class="px-8 py-5"><span class="px-3 py-1 rounded-full text-[8px] font-black uppercase ${t.unit?.includes('Caramello') ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'}">${t.unit}</span></td>
+                    <td class="px-8 py-5">
                         <p class="text-xs font-bold text-slate-700">${t.guest || t.note}</p>
-                        <p class="text-[9px] uppercase font-black text-slate-300">${t.category || (t.type === 'income' ? 'Booking' : 'Expense')}</p>
+                        <p class="text-[8px] font-black text-slate-300 uppercase">${t.category || (t.type === 'income' ? 'Booking' : 'Operasional')}</p>
                     </td>
-                    <td class="px-8 py-4 text-[10px] font-black text-slate-500 uppercase">${t.payment || 'Cash'}</td>
-                    <td class="px-8 py-4 text-right font-black ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'} text-xs">${formatIDR(t.amount)}</td>
-                    <td class="px-8 py-4">
-                        <div class="flex items-center justify-center gap-2">
-                            <button onclick="printTx('${t.id}')" class="p-2 text-slate-300 hover:text-slate-600"><i data-lucide="printer" class="w-4 h-4"></i></button>
-                            <button onclick="editTx('${t.id}')" class="p-2 text-emerald-400 hover:text-emerald-600"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                            <button onclick="deleteTx('${t.id}')" class="p-2 text-rose-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    <td class="px-8 py-5 text-right font-black ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'} text-xs">${t.type === 'income' ? '+' : '-'}${formatIDR(t.amount)}</td>
+                    <td class="px-8 py-5 text-center">
+                        <div class="flex items-center justify-center gap-4">
+                            <button onclick="printTx('${t.id}')" class="text-slate-300 hover:text-slate-600 transition"><i data-lucide="printer" class="w-4 h-4"></i></button>
+                            <button onclick="editTx('${t.id}')" class="text-slate-300 hover:text-emerald-500 transition"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+                            <button onclick="deleteTx('${t.id}')" class="text-slate-300 hover:text-rose-500 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -666,21 +754,40 @@
         const saveToCloud = async (formId, data, idField) => {
             if (!currentUser) return;
             const id = document.getElementById(idField).value;
+            
+            // Handle manual date
+            let inputDateStr = "";
+            if (formId === 'reservationForm') inputDateStr = document.getElementById('resDate').value;
+            else if (formId === 'extraSalesForm') inputDateStr = document.getElementById('extraDate').value;
+            else if (formId === 'expenseForm') inputDateStr = document.getElementById('expDate').value;
+
+            // Use manual date or fallback to current
+            const finalDate = inputDateStr ? Timestamp.fromDate(new Date(inputDateStr)) : Timestamp.now();
+
+            const finalData = { ...data, date: finalDate };
+
             try {
                 if (id) {
-                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id), data);
-                    showToast("Data Diperbarui");
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id), finalData);
+                    showToast("Data Berhasil Diperbarui");
                 } else {
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), { ...data, date: Timestamp.now() });
-                    showToast("Data Disimpan");
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'transactions'), finalData);
+                    showToast("Data Tersimpan Ke Cloud");
                 }
                 document.getElementById(formId).reset();
                 document.getElementById(idField).value = "";
+                
+                // Reset date to today
+                const now = new Date();
+                const todayStr = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+                if(document.getElementById('resDate')) document.getElementById('resDate').value = todayStr;
+                if(document.getElementById('extraDate')) document.getElementById('extraDate').value = todayStr;
+                if(document.getElementById('expDate')) document.getElementById('expDate').value = todayStr;
+
                 showTab('dashboard');
-            } catch (e) { showToast("Gagal menyimpan"); }
+            } catch (e) { showToast("Gagal Menyimpan!"); }
         };
 
-        // Event Handlers for Forms (Keep same IDs from your original code)
         document.getElementById('reservationForm').onsubmit = (e) => {
             e.preventDefault();
             saveToCloud('reservationForm', {
@@ -702,25 +809,32 @@
             }, 'expId');
         };
 
-        window.editTx = (id) => {
-            const t = transactions.find(x => x.id === id);
-            if (!t) return;
-            if (t.type === 'income' && t.checkIn) {
-                showTab('reservation');
-                resId.value = t.id; resUnit.value = t.unit; resGuestName.value = t.guest; resCheckIn.value = t.checkIn; resCheckOut.value = t.checkOut; resPayment.value = t.payment || 'Cash'; resPrice.value = t.amount;
-            } else if (t.type === 'income') {
-                showTab('extra-sales');
-                extraId.value = t.id; extraUnit.value = t.unit || 'Villa Caramello'; extraCategory.value = t.category; extraNote.value = t.note; extraPayment.value = t.payment || 'Cash'; extraAmount.value = t.amount;
-            } else {
-                showTab('expenses');
-                expId.value = t.id; expUnit.value = t.unit; expCategory.value = t.category; expNote.value = t.note; expPayment.value = t.payment || 'Cash'; expAmount.value = t.amount;
+        window.deleteTx = async (id) => {
+            if (confirm("Hapus data selamanya?")) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id));
+                showToast("Data Terhapus");
             }
         };
 
-        window.deleteTx = async (id) => {
-            if (confirm("Hapus data dari cloud permanen?")) {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'transactions', id));
-                showToast("Data Terhapus");
+        window.editTx = (id) => {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+            
+            // Convert timestamp to YYYY-MM-DD
+            const txDate = t.date ? new Date(t.date.seconds * 1000).toISOString().split('T')[0] : '';
+
+            if (t.type === 'income' && t.checkIn) {
+                showTab('reservation');
+                resId.value = t.id; resUnit.value = t.unit; resGuestName.value = t.guest; resCheckIn.value = t.checkIn; resCheckOut.value = t.checkOut; resPayment.value = t.payment || 'Cash'; resPrice.value = t.amount;
+                document.getElementById('resDate').value = txDate;
+            } else if (t.type === 'income') {
+                showTab('extra-sales');
+                extraId.value = t.id; extraUnit.value = t.unit; extraCategory.value = t.category; extraNote.value = t.note; extraPayment.value = t.payment || 'Cash'; extraAmount.value = t.amount;
+                document.getElementById('extraDate').value = txDate;
+            } else {
+                showTab('expenses');
+                expId.value = t.id; expUnit.value = t.unit; expCategory.value = t.category; expNote.value = t.note; expPayment.value = t.payment || 'Cash'; expAmount.value = t.amount;
+                document.getElementById('expDate').value = txDate;
             }
         };
 
